@@ -1,0 +1,7 @@
+---
+quiet: true
+compact: true
+skip-check:
+  # Checkov flags every github_actions_secret as a hardcoded secret. That is
+  # the module's entire purpose; the state exposure is documented instead.
+  - CKV_SECRET_6

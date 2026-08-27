@@ -1,0 +1,3 @@
+---
+exclude:
+  - github-actions-no-plain-text-action-secrets

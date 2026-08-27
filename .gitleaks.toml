@@ -1,0 +1,11 @@
+title = "terraform-github-modules"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Example and test fixture values are not real credentials"
+paths = [
+  '''_example/.*''',
+  '''modules/.*/tests/.*''',
+]

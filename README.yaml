@@ -1,0 +1,33 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make docs` to rebuild the `README.md`
+#
+
+name: Terraform GitHub Modules
+
+license: "APACHE"
+
+github_repo: clouddrove/terraform-github-modules
+
+badges:
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/clouddrove/terraform-github-modules.svg"
+    url: "https://github.com/clouddrove/terraform-github-modules/releases/latest"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "LICENSE"
+
+prerequesties:
+  - name: Terraform 1.10.0
+    url: https://developer.hashicorp.com/terraform/install
+
+description: |-
+  Terraform modules to manage GitHub organizations, repositories, rulesets,
+  teams, environments, Actions configuration, and secrets. Includes a secrets
+  module that publishes credentials produced by other Terraform modules, such
+  as an AWS RDS password or an Azure Key Vault secret, into GitHub Actions,
+  Dependabot, and Codespaces secrets.
+
+include:
+  - "terraform.md"

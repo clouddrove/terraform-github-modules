@@ -1,0 +1,22 @@
+---
+# Calls the shared reusable workflow at
+# clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml
+# Path and input names verified against that repository (default branch: master).
+# There is no `terraform.yml` in the shared repo; `tf-checks.yml` is the
+# matching workflow. `provider: none` skips cloud auth for a validate only run.
+name: tf-checks
+
+on:
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tf-checks:
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    with:
+      working_directory: '.'
+      provider: 'none'
