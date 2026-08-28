@@ -152,3 +152,38 @@ run "environment_target_creates_environment_secret" {
     error_message = "Expected one environment secret."
   }
 }
+
+# Regression: the headline use case is wiring a sensitive producer output
+# (an RDS master password, a Key Vault secret) straight into this module.
+# for_each must never be derived from var.secrets, or every such call fails
+# at plan time with "Sensitive values ... cannot be used as for_each arguments".
+run "accepts_a_sensitive_value" {
+  command = plan
+
+  variables {
+    secrets = {
+      RDS_PASSWORD = { value = sensitive("hunter2") }
+    }
+  }
+
+  assert {
+    condition     = length(github_actions_secret.this) == 1
+    error_message = "A sensitive secret value must plan successfully."
+  }
+}
+
+run "accepts_a_sensitive_value_alongside_generation" {
+  command = plan
+
+  variables {
+    secrets = {
+      RDS_PASSWORD  = { value = sensitive("hunter2") }
+      SERVICE_TOKEN = { generate = { length = 40, special = false, rotation_days = 90 } }
+    }
+  }
+
+  assert {
+    condition     = length(random_password.this) == 1
+    error_message = "Generation must still work when another entry is sensitive."
+  }
+}

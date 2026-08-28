@@ -15,6 +15,7 @@ validate:
 	done
 
 test:
+	terraform test
 	@for m in $(MODULES); do \
 		if [ -d "$$m/tests" ]; then \
 			echo "==> testing $$m"; \

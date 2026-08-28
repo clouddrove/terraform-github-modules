@@ -3,23 +3,29 @@
 ## is set; without it a generated value is stable for the life of the state.
 ##-----------------------------------------------------------------------------
 resource "time_rotating" "this" {
-  for_each = var.enabled ? {
-    for k, v in var.secrets : k => v.generate.rotation_days
+  # Iterate key names, never var.secrets itself. Callers merge sensitive maps
+  # into `secrets` (a sensitive module output, an RDS password), and a for_each
+  # derived from a sensitive value is rejected at plan time.
+  for_each = var.enabled ? nonsensitive(toset([
+    for k, v in var.secrets : k
     if v.generate != null && v.generate.rotation_days != null
-  } : {}
+  ])) : toset([])
 
-  rotation_days = each.value
+  rotation_days = var.secrets[each.value].generate.rotation_days
 }
 
 resource "random_password" "this" {
-  for_each = var.enabled ? { for k, v in var.secrets : k => v if v.generate != null } : {}
+  # Same constraint as time_rotating above: key names only.
+  for_each = var.enabled ? nonsensitive(toset([
+    for k, v in var.secrets : k if v.generate != null
+  ])) : toset([])
 
-  length           = each.value.generate.length
-  special          = each.value.generate.special
-  override_special = each.value.generate.override_special
+  length           = var.secrets[each.value].generate.length
+  special          = var.secrets[each.value].generate.special
+  override_special = var.secrets[each.value].generate.override_special
 
   keepers = try(
-    { rotated_at = time_rotating.this[each.key].rotation_rfc3339 },
+    { rotated_at = time_rotating.this[each.value].rotation_rfc3339 },
     null
   )
 }
