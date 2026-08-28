@@ -48,7 +48,7 @@ opt-in. See [`docs/architecture.md`](docs/architecture.md) for why.
 ```hcl
 module "github" {
   source  = "clouddrove/github-modules/github"
-  version = "1.0.0"
+  version = "0.0.1"
 
   name        = "api"
   environment = "prod"

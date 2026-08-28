@@ -4,9 +4,11 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.0.1] - 2026-08-27
 
-First release. The date is set when the `1.0.0` tag is cut.
+Initial release. Version 0.0.x signals that the module interfaces are not yet
+frozen: inputs and outputs may change without a major bump until 1.0.0. Pin an
+exact version.
 
 ### Added
 
