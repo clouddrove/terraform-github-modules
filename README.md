@@ -118,7 +118,7 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "github_secrets" {
       source  = "clouddrove/modules/github//modules/secrets"
-      version = "0.0.1"
+      version = "0.0.2"
 
       secrets = {
         RDS_PASSWORD = { value = module.rds.master_password }
@@ -134,7 +134,7 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "aws_secrets" {
       source  = "clouddrove/modules/github//modules/secrets-source-aws"
-      version = "0.0.1"
+      version = "0.0.2"
 
       secrets = {
         STRIPE_KEY = { arn = "arn:aws:secretsmanager:eu-west-1:1234:secret:app/stripe", json_key = "api_key" }
@@ -144,7 +144,7 @@ Here are some examples of how you can use this module in your inventory structur
 
     module "github_secrets" {
       source  = "clouddrove/modules/github//modules/secrets"
-      version = "0.0.1"
+      version = "0.0.2"
 
       secrets = merge(
         module.aws_secrets.values,

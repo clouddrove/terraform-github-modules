@@ -17,7 +17,7 @@ it was rejected here for two reasons.
    contracts into a cross-repository version constraint that has to be
    resolved by hand on each upgrade.
 2. **One tag makes the compatible set obvious.** A consumer pinning
-   `version = "0.0.1"` gets a set of submodules that were tested together.
+   `version = "0.0.2"` gets a set of submodules that were tested together.
    There is no matrix of which repository version works with which.
 
 The cost of the single repository is that a change anywhere bumps the version
@@ -30,7 +30,7 @@ Every submodule is independently consumable:
 ```hcl
 module "secrets" {
   source  = "clouddrove/github-modules/github//modules/secrets"
-  version = "0.0.1"
+  version = "0.0.2"
 }
 ```
 
