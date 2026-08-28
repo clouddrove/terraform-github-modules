@@ -1,36 +1,128 @@
 ---
-# Project metadata for this repository.
 #
-# NOTE: this file is reference metadata only. `make docs` runs terraform-docs,
-# which injects the inputs and outputs tables between the BEGIN_TF_DOCS and
-# END_TF_DOCS markers in README.md and does not read this file. The prose above
-# those markers in README.md is maintained by hand. Keep the two in step, or
-# wire a generator into the docs target if you want one source of truth.
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
 
+# Name of this project
 name: Terraform GitHub Modules
 
+# License of this project
 license: "APACHE"
 
+# Canonical GitHub repo
 github_repo: clouddrove/terraform-github-modules
 
+# Badges to display
 badges:
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/clouddrove/terraform-github-modules.svg"
     url: "https://github.com/clouddrove/terraform-github-modules/releases/latest"
+  - name: "tfsec"
+    image: "https://github.com/clouddrove/terraform-github-modules/actions/workflows/security-tfsec.yml/badge.svg"
+    url: "https://github.com/clouddrove/terraform-github-modules/actions/workflows/security-tfsec.yml"
   - name: "Licence"
     image: "https://img.shields.io/badge/License-APACHE-blue.svg"
     url: "LICENSE"
+  - name: "Changelog"
+    image: "https://img.shields.io/badge/Changelog-blue"
+    url: "CHANGELOG.md"
 
 prerequesties:
-  - name: Terraform 1.10.0
-    url: https://developer.hashicorp.com/terraform/install
+  - name: Terraform
+    url: https://learn.hashicorp.com/terraform/getting-started/install.html
+    version: ">= 1.10.0"
 
+providers:
+  - name: github
+    url: https://github.com/
+    version: ">= 6.13.0"
+
+#  description of this project
 description: |-
-  Terraform modules to manage GitHub organizations, repositories, rulesets,
-  teams, environments, Actions configuration, and secrets. Includes a secrets
-  module that publishes credentials produced by other Terraform modules, such
-  as an AWS RDS password or an Azure Key Vault secret, into GitHub Actions,
-  Dependabot, and Codespaces secrets.
+  Terraform modules to manage GitHub organizations, repositories, rulesets, teams,
+  environments, Actions configuration, and secrets.
 
-include:
-  - "terraform.md"
+  The suite includes a secrets module that publishes credentials produced by other
+  Terraform modules, such as an AWS RDS master password or an Azure Key Vault
+  secret, into GitHub Actions, Dependabot, and Codespaces secrets at repository,
+  organization, or environment scope.
+
+  IMPORTANT: secret values are recorded in Terraform state in clear text. This is
+  inherent to the GitHub provider API and no module can change it. Use remote state
+  encrypted with a customer-managed key and restrict read access to it. For cloud
+  provider access, prefer OIDC federation over stored credentials; see the actions
+  submodule.
+
+# How to use this project
+usage: |-
+  Here are some examples of how you can use this module in your inventory structure:
+
+  ### basic example
+  ```hcl
+      module "github" {
+        source      = "clouddrove/modules/github"
+        version     = "0.0.1"
+        name        = "api"
+        environment = "prod"
+        description = "API service"
+        visibility  = "private"
+        topics      = ["terraform", "api"]
+
+        ruleset = {
+          ruleset_name = "main-protection"
+          rules = {
+            deletion         = true
+            non_fast_forward = true
+            pull_request = {
+              required_approving_review_count = 2
+            }
+          }
+        }
+      }
+  ```
+
+  ### secrets from a module output
+  ```hcl
+      module "github_secrets" {
+        source  = "clouddrove/modules/github//modules/secrets"
+        version = "0.0.1"
+
+        secrets = {
+          RDS_PASSWORD = { value = module.rds.master_password }
+          DB_HOST      = { value = module.rds.endpoint, as_variable = true }
+        }
+
+        kinds   = ["actions", "dependabot"]
+        targets = { repositories = ["api"] }
+      }
+  ```
+
+  ### secrets pulled from AWS Secrets Manager and Azure Key Vault
+  ```hcl
+      module "aws_secrets" {
+        source  = "clouddrove/modules/github//modules/secrets-source-aws"
+        version = "0.0.1"
+
+        secrets = {
+          STRIPE_KEY = { arn = "arn:aws:secretsmanager:eu-west-1:1234:secret:app/stripe", json_key = "api_key" }
+          DD_API_KEY = { ssm_parameter = "/prod/datadog/api_key" }
+        }
+      }
+
+      module "github_secrets" {
+        source  = "clouddrove/modules/github//modules/secrets"
+        version = "0.0.1"
+
+        secrets = merge(
+          module.aws_secrets.values,
+          {
+            SERVICE_TOKEN = { generate = { length = 40, special = false, rotation_days = 90 } }
+          }
+        )
+
+        targets = {
+          repositories = ["api", "worker"]
+          environments = [{ repository = "api", environment = "prod" }]
+        }
+      }
+  ```

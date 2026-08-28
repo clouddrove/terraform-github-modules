@@ -1,0 +1,21 @@
+name: Security Scan
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  checkov:
+    if: github.actor != 'dependabot[bot]'
+    uses: clouddrove/github-shared-workflows/.github/workflows/security-checkov.yml@v2
+    with:
+      directory: '.'
+      continue_on_error: 'true'
+      skip_check: 'CKV_SECRET_6,CKV_GIT_1,CKV_GIT_2,CKV_GIT_3,CKV_GIT_5,CKV_GIT_6,CKV2_GIT_1'

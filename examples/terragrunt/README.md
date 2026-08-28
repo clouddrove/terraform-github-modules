@@ -2,7 +2,7 @@
 
 The baseline composite root driven by Terragrunt instead of a Terraform root
 module. `terraform.source` points at the repository root; `inputs` supplies the
-same variables the `_example/basic` example passes in HCL.
+same variables the `examples/basic` example passes in HCL.
 
 There is no `terraform.tf` here. The provider configuration comes from the
 parent Terragrunt configuration in a real setup, usually through a

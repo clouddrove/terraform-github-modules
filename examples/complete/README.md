@@ -35,7 +35,7 @@ submodule enforces that.
 ## Read this before you apply
 
 Secret values published through this example are written to Terraform state in
-clear text. See `_example/secrets-sync/README.md` for what that means and what
+clear text. See `examples/secrets-sync/README.md` for what that means and what
 to do about it.
 
 ## Usage

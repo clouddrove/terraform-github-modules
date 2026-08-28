@@ -243,7 +243,7 @@ sensitive hides it from CLI output; it does not encrypt or omit it in the
 state file.
 
 The consequence for consumers is a hard requirement, spelled out in
-`modules/secrets/README.md` and in `_example/secrets-sync/README.md`: remote
+`modules/secrets/README.md` and in `examples/secrets-sync/README.md`: remote
 state encrypted with a customer-managed key, restricted read access,
 versioning, and access logging. For cloud provider access specifically, OIDC
 federation through `modules/actions` is the stronger alternative, because a

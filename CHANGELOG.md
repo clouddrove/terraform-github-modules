@@ -48,8 +48,8 @@ exact version.
 - Baseline composite root wiring `repository`, `ruleset`, `environment`, and
   `secrets` together in dependency order, plus map-driven `wrappers/` that
   call the root once per entry.
-- `_example/basic`, `_example/complete`, `_example/secrets-sync`, and
-  `_example/terragrunt`.
+- `examples/basic`, `examples/complete`, `examples/secrets-sync`, and
+  `examples/terragrunt`.
 - `docs/architecture.md` and `docs/io.md`.
 - Native `terraform test` suites with `mock_provider` in every submodule and
   at the repository root. No test requires a real GitHub token, AWS account,
