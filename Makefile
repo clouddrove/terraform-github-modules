@@ -1,6 +1,7 @@
 .PHONY: fmt validate test docs ci tofu-fmt tofu-validate terragrunt-validate security tflint
 
 MODULES := $(shell find modules -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
+EXAMPLES := $(shell find _example -maxdepth 1 -mindepth 1 -type d 2>/dev/null)
 
 fmt:
 	terraform fmt -recursive
@@ -52,6 +53,9 @@ docs:
 	terraform-docs markdown table --output-file README.md --output-mode inject .
 	@for m in $(MODULES); do \
 		terraform-docs markdown table --output-file README.md --output-mode inject $$m; \
+	done
+	@for e in $(EXAMPLES); do \
+		terraform-docs markdown table --output-file README.md --output-mode inject $$e; \
 	done
 
 ci: fmt validate test

@@ -32,3 +32,29 @@ terragrunt apply
 `make terragrunt-validate` runs `terragrunt validate` in this directory. It
 needs the `terragrunt` binary on PATH; the target is skipped when Terragrunt is
 not installed.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->

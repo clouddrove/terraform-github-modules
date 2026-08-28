@@ -135,12 +135,12 @@ variable "branch_protection" {
   type = map(object({
     pattern                         = string
     enforce_admins                  = optional(bool, true)
-    require_signed_commits          = optional(bool, false)
+    require_signed_commits          = optional(bool, true)
     required_linear_history         = optional(bool, true)
     allows_deletions                = optional(bool, false)
     allows_force_pushes             = optional(bool, false)
-    required_approving_review_count = optional(number, 1)
+    required_approving_review_count = optional(number, 2)
   }))
   default     = {}
-  description = "Classic branch protection, for repositories not yet migrated to rulesets. Keyed by an arbitrary label."
+  description = "Classic branch protection, for repositories not yet migrated to rulesets. Keyed by an arbitrary label. Defaults are secure-by-default: signed commits required and two approving reviews. Lower them explicitly per entry if a repository cannot meet them."
 }

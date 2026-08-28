@@ -1,8 +1,11 @@
 ---
+# Project metadata for this repository.
 #
-# This is the canonical configuration for the `README.md`
-# Run `make docs` to rebuild the `README.md`
-#
+# NOTE: this file is reference metadata only. `make docs` runs terraform-docs,
+# which injects the inputs and outputs tables between the BEGIN_TF_DOCS and
+# END_TF_DOCS markers in README.md and does not read this file. The prose above
+# those markers in README.md is maintained by hand. Keep the two in step, or
+# wire a generator into the docs target if you want one source of truth.
 
 name: Terraform GitHub Modules
 
