@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.0.2] - 2026-08-28
+### :wrench: Chores
+- [`c95befa`](https://github.com/clouddrove/terraform-github-modules/commit/c95befa758ec1b8a3eb8c2c75351bf5cafc86899) - **release**: 0.0.2 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+
+
 ## [0.0.2] - 2026-08-27
 
 ### Changed
@@ -117,3 +122,4 @@ the cheaper of the two outcomes.
   documented alternative to storing long lived credentials as GitHub secrets.
 
 [Unreleased]: https://github.com/clouddrove/terraform-github-modules/compare/HEAD
+[v0.0.2]: https://github.com/clouddrove/terraform-github-modules/compare/v0.0.1...v0.0.2
